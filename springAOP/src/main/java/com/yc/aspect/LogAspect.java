@@ -1,7 +1,9 @@
 package com.yc.aspect;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
@@ -10,6 +12,7 @@ import java.util.Date;
 //切面类：要增强的功能
 @Aspect
 @Component
+@Order(1)
 public class LogAspect {
 
     @Pointcut("execution(* com.yc.biz.StudentBizImpl.add*(..))")
@@ -25,12 +28,23 @@ public class LogAspect {
     }
 
     @After("method()")
-    public void bye(){
-        System.out.println("bye");
+    public void bye(JoinPoint jp){
+        System.out.println("bye========================");
+        Object target=jp.getTarget();
+        System.out.println("目标类是"+target);
+        System.out.println("方法"+jp.getSignature());
+        Object []objs=jp.getArgs();
+        if(objs!=null){
+            for(Object o:objs){
+                System.out.println("参数"+o);
+            }
+        }
+        System.out.println("bye========================");
     }
 
-    @Around("method()")
+    @Around("execution(* com.yc.biz.StudentBizImpl.update*(..))")
     public Object compute(ProceedingJoinPoint pjp) throws Throwable {
+        System.out.println("compute进入");
         long start=System.currentTimeMillis();
         Object reVal=pjp.proceed();
         long end =System.currentTimeMillis();

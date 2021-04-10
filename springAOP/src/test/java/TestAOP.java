@@ -9,11 +9,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class) //使用junit4进行测试
 @ContextConfiguration(classes = AppConfig.class)
 public class TestAOP {
+
     @Autowired
     private StudentBiz studentBiz;
 
     @Test
     public void testAdd(){
         studentBiz.add("张三");
+    }
+
+    @Test
+    public void testUpdate(){
+        studentBiz.update("张三");
     }
 }

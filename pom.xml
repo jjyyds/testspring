@@ -15,6 +15,7 @@
         <module>calspring</module>
         <module>myIOC</module>
         <module>springAOP</module>
+        <module>myAOP</module>
     </modules>
     <dependencyManagement>
         <dependencies>
