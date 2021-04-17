@@ -16,6 +16,7 @@
         <module>myIOC</module>
         <module>springAOP</module>
         <module>myAOP</module>
+        <module>springTx</module>
     </modules>
     <dependencyManagement>
         <dependencies>
