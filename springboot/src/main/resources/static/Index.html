@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>首页</title>
+</head>
+<body>
+    <div id="app">
+        查看余额:<input v-model="accountid" placeholder="请输入账号">
+        <button type="button" @click="find()" >查询</button><br>
+        <span>余额: </span><span>{{account.balance}}</span>
+    </div>
+
+</body>
+<script src="js/jquery-3.4.1.min.js"></script>
+<script src="js/vue.js"></script>
+<script src="js/axios.js"></script>
+<script>
+    var app=new Vue({
+        el:"#app",
+        data:{
+            accountid:'',
+            account:[]
+        },
+        methods:{
+            find(){
+                var that=this;
+                axios({
+                    url:"/accounts/showBalance/"+that.accountid,
+                    method:"get"
+                }).then(res=>{
+                    console.log(res.data);
+                    that.account=res.data;
+                });
+            }
+        }
+    })
+</script>
+</html>
