@@ -17,6 +17,7 @@
         <module>springAOP</module>
         <module>myAOP</module>
         <module>springTx</module>
+        <module>myStarter</module>
     </modules>
     <dependencyManagement>
         <dependencies>
