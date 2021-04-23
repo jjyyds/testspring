@@ -26,6 +26,11 @@
             <artifactId>hellostarter</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.yc</groupId>
+            <artifactId>mysqlstarter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>
