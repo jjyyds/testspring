@@ -70,8 +70,8 @@ public class AccountServiceImpl implements AccountService{
     @Override
     public Accounts transfer(Accounts inAccount, Accounts outAccount, double money) {
         String uid= UUID.randomUUID().toString();
-        this.deposite(inAccount,money,OpTypes.transfer.getName(),uid);
-        Accounts newAccounts=this.withdraw(outAccount,money,OpTypes.transfer.getName(),uid);
+        this.deposite(inAccount,money,OpTypes.deposite.getName(),uid);
+        Accounts newAccounts=this.withdraw(outAccount,money,OpTypes.withdraw.getName(),uid);
         return newAccounts;
     }
 

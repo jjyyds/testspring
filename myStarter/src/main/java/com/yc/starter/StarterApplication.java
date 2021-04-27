@@ -1,6 +1,7 @@
 package com.yc.starter;
 
 import com.yc.IDBHelper;
+import com.yc.services.IHelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,13 +17,13 @@ public class StarterApplication {
         SpringApplication.run(StarterApplication.class,args);
     }
 
-//    @Autowired
-//    private IHelloService helloService;
-//
-//    @GetMapping("/hello")
-//    public String hello(){
-//        return helloService.say();
-//    }
+    @Autowired
+    private IHelloService helloService;
+
+    @GetMapping("/hello")
+    public String hello(){
+        return helloService.say();
+    }
 
     @Autowired
     private IDBHelper idbHelper;

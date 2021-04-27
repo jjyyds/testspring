@@ -6,9 +6,15 @@
 </head>
 <body>
     <div id="app">
-        查看余额:<input v-model="accountid" placeholder="请输入账号">
-        <button type="button" @click="find()" >查询</button><br>
-        <span>余额: </span><span>{{account.balance}}</span>
+        账号:<input type="text" name="accountId" v-model="accountId"/><br/>
+        操作金额:<input type="text" name="money" v-model="money"/><br/>
+        转入账号:<input type="text" name="inAccountId" v-model="inAccountId"/><br/>
+        <input type="button" value="开户" class="btn" @click="openAccounts()">
+        <input type="button" value="存款" class="btn" @click="deposit()">
+        <input type="button" value="取款" class="btn" @click="withdraw()">
+        <input type="button" value="转账" class="btn" @click="transfer()">
+        <input type="button" value="查询" class="btn" @click="query()">
+        <div id="result" v-html="result"></div>
     </div>
 
 </body>
@@ -16,24 +22,97 @@
 <script src="js/vue.js"></script>
 <script src="js/axios.js"></script>
 <script>
-    var app=new Vue({
-        el:"#app",
-        data:{
-            accountid:'',
-            account:[]
+    let vm = new Vue({
+        el: '#app',
+        data: {
+            accountId: "",
+            money: 0.0,
+            inAccountId: "",
+            result: ""
         },
-        methods:{
-            find(){
-                var that=this;
-                axios({
-                    url:"/accounts/showBalance/"+that.accountid,
-                    method:"get"
-                }).then(res=>{
-                    console.log(res.data);
-                    that.account=res.data;
+        methods: {
+            openAccounts: function () {
+                var params = new URLSearchParams();
+                params.append("money", this.money);
+                axios.post('/accounts/openAccount', params).then(response => {
+                    if (response.data.code == 1) {
+                        this.result = "新开账号:<span class='point'>" + response.data.data.accountId + "</span>，" +
+                            "余额为:<span class='point'>" + response.data.data.balance + "</span>";
+                    } else {
+                        this.result = "<span class='err'>" + response.data.msg + "</span>";
+                    }
+                }).catch(function (error) { // 请求失败处理
+                    // console.log(error);
+                    this.result = "<span class='err'>" + error + "</span>";
+                });
+            },
+            deposit: function () {
+                var params = new URLSearchParams();
+                params.append("accountid", this.accountId);
+                params.append("money", this.money);
+                axios.post('/accounts/deposit', params).then(response => {
+                    if (response.data.code == 1) {
+                        this.result = "账号:<span class='point'>" + response.data.data.accountId + "</span>，" +
+                            "存款:<span class='point'>" + this.money +
+                            "</span>成功,当前余额为:<span class='point'>" + response.data.data.balance + "</span>";
+                    } else {
+                        this.result = "<span class='err'>" + response.data.msg + "</span>";
+                    }
+                }).catch(function (error) { // 请求失败处理
+                    // console.log(error);
+                    this.result = "<span class='err'>" + error + "</span>";
+                });
+            },
+            withdraw: function () {
+                var params = new URLSearchParams();
+                params.append("accountid", this.accountId);
+                params.append("money", this.money);
+                axios.post('/accounts/withdraw', params).then(response => {
+                    if (response.data.code == 1) {
+                        this.result = "账号:<span class='point'>" + response.data.data.accountId + "</span>，" +
+                            "取款:<span class='point'>" + this.money +
+                            "</span>成功,当前余额为:<span class='point'>" + response.data.data.balance + "</span>";
+                    } else {
+                        this.result = "<span class='err'>" + response.data.msg + "</span>";
+                    }
+                }).catch(function (error) { // 请求失败处理
+                    // console.log(error);
+                    this.result = "<span class='err'>" + error + "</span>";
+                });
+            },
+            transfer: function () {
+                var params = new URLSearchParams();
+                params.append("accountid", this.accountId);
+                params.append("money", this.money);
+                params.append("inAccountid", this.inAccountId);
+                axios.post('/accounts/transfer', params).then(response => {
+                    if (response.data.code == 1) {
+                        this.result = "账号:<span class='point'>" + response.data.data.accountId + "</span>，" +
+                            "向账号:<span class='point'>" + this.inAccountId + "</span>转账<span class='point'>" + this.money
+                            + "</span>成功,当前余额为:<span class='point'>" + response.data.data.balance + "</span>";
+                    } else {
+                        this.result = "<span class='err'>" + response.data.msg + "</span>";
+                    }
+                }).catch(function (error) { // 请求失败处理
+                    // console.log(error);
+                    this.result = "<span class='err'>" + error + "</span>";
+                });
+            },
+            query: function () {
+                axios.get('/accounts/showBalance/'+this.accountId).then(response => {
+                    if (response.data.code == 1) {
+                        this.result = "账号:<span class='point'>" + response.data.data.accountId + "</span>，" +
+                            "当前余额为:<span class='point'>" + response.data.data.balance + "</span>";
+                    } else {
+                        this.result = "<span class='err'>" + response.data.msg + "</span>";
+                    }
+                }).catch(function (error) { // 请求失败处理
+                    // console.log(error);
+                    this.result = "<span class='err'>" + error + "</span>";
                 });
             }
+
         }
-    })
+    });
 </script>
 </html>

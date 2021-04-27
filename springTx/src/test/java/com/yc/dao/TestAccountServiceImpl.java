@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = AppConfig.class)
@@ -18,6 +19,7 @@ public class TestAccountServiceImpl {
     private AccountService accountService;
 
     @Test
+    @Transactional //在junit中使用，用于恢复线程，回滚
     public void testOpenAccount(){
         Integer accountid=accountService.openAccount(new Accounts(),1);
         System.out.println(accountid);

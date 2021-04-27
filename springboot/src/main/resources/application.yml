@@ -1,2 +1,15 @@
 server:
   port: 80
+  servlet:
+    session:
+      timeout: 60000
+
+logging:
+  level:
+    com.yc: info
+  file:
+    path: ./logs
+    name: ./logs/bank.log
+
+swagger:
+  enabled: true
